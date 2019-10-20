@@ -2,6 +2,11 @@ package c.analyzer;
 
 import java_cup.runtime.Symbol;
 
+/**
+ * Custom class used to store the parsed symbols.
+ * 
+ * @author florin_nica
+ */
 public class MySymbol extends Symbol {
 	private int line;
 	private int column;
