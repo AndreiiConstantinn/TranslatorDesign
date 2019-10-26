@@ -14,6 +14,8 @@ import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.filechooser.FileSystemView;
 
+import c.analyzer.ClanguageAnalyzer;
+
 public class AnalyzerGUI {
 
 	private JFrame frame;
@@ -112,6 +114,11 @@ public class AnalyzerGUI {
 		frame.getContentPane().add(outputBrowse);
 		
 		JButton btnRunAnalyzer = new JButton("Run Analyzer");
+		btnRunAnalyzer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				new ClanguageAnalyzer().runAnalyzer(inputField.getText(), outputField.getText());
+			}
+		});
 		btnRunAnalyzer.setBounds(22, 114, 117, 29);
 		frame.getContentPane().add(btnRunAnalyzer);
 	}
