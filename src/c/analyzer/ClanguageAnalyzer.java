@@ -8,9 +8,9 @@ import java.io.FileReader;
  */
 public class ClanguageAnalyzer {
 	public static void main(String args[]) {
-		Lexer lex = null;
+		Lexer lexer = null;
 		try {
-			lex = new Lexer(new FileReader("test/resources/input.txt"));
+			lexer = new Lexer(new FileReader("test/resources/input.txt"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -18,8 +18,10 @@ public class ClanguageAnalyzer {
 		MySymbol symbol = null;		
 		do {
 			try {
-				symbol = (MySymbol) lex.next_token();
-				System.out.println("The analyzer found: \""+ lex.yytext() + "\" located at: " + symbol);
+				symbol = (MySymbol) lexer.next_token();
+				System.out.println("Analyzer found the symbol: \""+ lexer.yytext() + 
+									"\", located at: " + symbol.getSymbolLocation() +
+									", type: " + symbol.getSymbolType());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

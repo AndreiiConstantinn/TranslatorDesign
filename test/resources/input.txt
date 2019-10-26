@@ -1,6 +1,6 @@
 void main()
 {	
-	int a = 1; 
-	double b = 2;
+    int a = 1; 
+	float b = 2;
 	double c = a + b;
 }
