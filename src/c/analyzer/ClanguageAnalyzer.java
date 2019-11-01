@@ -2,13 +2,14 @@ package c.analyzer;
 import java.io.FileReader;
 
 /**
- * Main class, initializes the lexical analyzer and parses a test file. 
+ * Main class, initializes the lexical analyzer and parses the input files. 
  * 
  * @author florin_nica
  */
 public class ClanguageAnalyzer {
 	/**
 	 * Analyzes an input .c file and writes the result into an outputFile.
+	 * 
 	 * @param inputFileName
 	 * @param outputFileName
 	 */
@@ -28,7 +29,7 @@ public class ClanguageAnalyzer {
 					System.out.println("Analyzer found the symbol: \""+ lexer.yytext() + 
 							"\", located at: " + symbol.getSymbolLocation() +
 							", type: " + symbol.getSymbolType());
-				}
+				} 
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
