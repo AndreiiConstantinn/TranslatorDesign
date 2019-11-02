@@ -17,10 +17,10 @@ import javax.swing.filechooser.FileSystemView;
 import c.analyzer.ClanguageAnalyzer;
 
 public class AnalyzerGUI {
-
 	private JFrame frame;
 	private JTextField inputField;
 	private JTextField outputField;
+	private JTextField resultField;
 
 	/**
 	 * Launch the application.
@@ -90,6 +90,7 @@ public class AnalyzerGUI {
 	            if (result == JFileChooser.APPROVE_OPTION) { 
 	                // set the label to the path of the selected file 
 	                inputField.setText(fileChooser.getSelectedFile().getAbsolutePath()); 
+	                resultField.setVisible(false);
 	            } 
 	        } 
 		});
@@ -113,10 +114,34 @@ public class AnalyzerGUI {
 		});
 		frame.getContentPane().add(outputBrowse);
 		
+		
+		resultField = new JTextField();
+		resultField.setEditable(false);
+		resultField.setVisible(false);
+		resultField.setBounds(151, 114, 255, 26);
+		resultField.setColumns(10);
+		frame.getContentPane().add(resultField);
+		
+		JButton btnClear = new JButton("Clear");
+		btnClear.setBounds(415, 114, 60, 29);
+		btnClear.setVisible(false);
+		btnClear.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				resultField.setVisible(false);
+				btnClear.setVisible(false);
+			}
+		});
+		frame.getContentPane().add(btnClear);
+		
 		JButton btnRunAnalyzer = new JButton("Run Analyzer");
 		btnRunAnalyzer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				new ClanguageAnalyzer().runAnalyzer(inputField.getText(), outputField.getText());
+				ClanguageAnalyzer cAnalyzer = new ClanguageAnalyzer();
+				cAnalyzer.runAnalyzer(inputField.getText(), outputField.getText());
+				resultField.setVisible(true);
+				btnClear.setVisible(true);
+				resultField.setText(cAnalyzer.getMessageToDisplay());
 			}
 		});
 		btnRunAnalyzer.setBounds(22, 114, 117, 29);
