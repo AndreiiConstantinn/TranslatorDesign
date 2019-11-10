@@ -13,6 +13,8 @@ public class ClanguageAnalyzer {
 
 	private String messageToDisplay = "The selected file is a VALID .c file!";
 	
+	private Parser cParser;
+	
 	/**
 	 * Analyzes an input .c file and writes the results provided by lexer into an outputFile.
 	 * 
@@ -75,6 +77,7 @@ public class ClanguageAnalyzer {
 		try {
 			@SuppressWarnings("deprecation")
 			Parser parser = new Parser(lexer);
+			this.cParser = parser;
 			parser.parse();
 		// if any exception thrown by the internal parser is caught
 		} catch (Exception e) {
@@ -91,6 +94,15 @@ public class ClanguageAnalyzer {
 	}
 	
 	public static void main(String args[]) {
-		new ClanguageAnalyzer().runAnalyzer("test/resources/input.txt", "");
+		ClanguageAnalyzer cAnalyzer = new ClanguageAnalyzer();
+		cAnalyzer.runAnalyzer("test/resources/input.txt", "");
+		
+		FunctionsAnalyzer fAnalyzer = cAnalyzer.cParser.getAnalyzer();
+		
+		System.out.println("#The functions are: ");
+		for (Function function : fAnalyzer.getFunctions()) {
+			System.out.println("--- " + function.getName() + " ---");
+		}
+		System.out.println("\n#There are " + fAnalyzer.getNrOfStatements() + " statements.");
 	}
 }

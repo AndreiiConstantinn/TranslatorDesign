@@ -7,7 +7,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>C Analyzer</name>
 	<description>C Files Analyzer</description>
-	
+
 	<build>
 		<sourceDirectory>src</sourceDirectory>
 		<plugins>
@@ -19,6 +19,14 @@
 					<target>1.8</target>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>de.jflex</groupId>
+				<artifactId>jflex-maven-plugin</artifactId>
+				<version>1.7.0</version>
+				<executions>
+					<!--<execution> <goals> <goal>generate</goal> </goals> </execution> -->
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 
@@ -29,5 +37,12 @@
 			<artifactId>java-cup-runtime</artifactId>
 			<version>11b</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.ostermiller/utils -->
+		<dependency>
+			<groupId>org.ostermiller</groupId>
+			<artifactId>utils</artifactId>
+			<version>1.07.00</version>
+		</dependency>
+
 	</dependencies>
 </project>

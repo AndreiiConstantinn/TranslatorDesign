@@ -1,5 +1,13 @@
 import java_cup.runtime.*;
 
+action code {:
+  FunctionsAnalyzer fa = new FunctionsAnalyzer();
+
+  public FunctionsAnalyzer getAnalyzer(){
+    return fa;
+  }
+:};
+
 parser code  {: 
   public void report_error(String message, Object info) {
     StringBuffer m = new StringBuffer("Error ");
@@ -103,7 +111,10 @@ array_dim ::= LBRACK RBRACK
                {: RESULT = new String("[" + parser.intLitToString(i) + "]"); :};
 
 function ::= function_name:n LPAREN RPAREN
-                                                {: RESULT = n.concat("()"); :};
+                                                {: RESULT = n.concat("()"); 
+                                                fa.addStatement(); 
+                                                fa.changeCurrentFunction(n);
+                                                fa.addFunction();:};
 function_name ::= DOUBLE IDENTIFIER:i
                             {: RESULT = new String("double " + i.toString()); :}
                 | FLOAT IDENTIFIER:i
@@ -121,21 +132,21 @@ stmt_list ::= stmt_list:l decl:d              {: RESULT = l.concat("\n" + d); :}
             | decl:d                          {: RESULT = d; :}
             | stmt_list:l stmt:s              {: RESULT = l.concat("\n" + s); :}
             | stmt:s                          {: RESULT = s; :};
-stmt ::= block_stmt:s                                         {: RESULT = s; :}
-       | iteration_stmt:s                                     {: RESULT = s; :}
-       | return_stmt:s                                        {: RESULT = s; :}
-       | expression_stmt:s                                    {: RESULT = s; :};
+stmt ::= block_stmt:s                                         {:RESULT = s; fa.addStatement();:}
+       | iteration_stmt:s                                     {:RESULT = s;:}
+       | return_stmt:s                                        {:RESULT = s; fa.addStatement();:}
+       | expression_stmt:s                                    {:RESULT = s; fa.addStatement();:};
 return_stmt ::= RETURN SEMICOLON
-                                {: RESULT = new String("return;"); :}
+                                {: RESULT = new String("return;");:}
               | RETURN expression:e SEMICOLON
-                                {: RESULT = new String("return " + e + ";"); :};
-expression_stmt ::= expression:e SEMICOLON        {: RESULT = e.concat(";"); :};
+                                {: RESULT = new String("return " + e + ";");:};
+expression_stmt ::= expression:e SEMICOLON        {: RESULT = e.concat(";");:};
 iteration_stmt ::= WHILE LPAREN expression:e RPAREN stmt:s
-                   {: RESULT = new String("while (" + e + ")\n" + s); :}
+                   {: RESULT = new String("while (" + e + ")\n" + s);:}
                  | DO stmt:s WHILE LPAREN expression:e RPAREN SEMICOLON
-                   {: RESULT = new String("do " + s + " while (" + e + ");"); :}
+                   {: RESULT = new String("do " + s + " while (" + e + ");");:}
                  | FOR LPAREN for_arg_list:l RPAREN stmt:s
-                   {: RESULT = new String("for (" + l + ")\n" + s); :};
+                   {: RESULT = new String("for (" + l + ")\n" + s);:};
 for_arg_list ::= expression:e SEMICOLON expression:f SEMICOLON expression:g
                                 {: RESULT = e.concat("; " + f + "; " + g); :}
                | SEMICOLON expression:f SEMICOLON expression:g
