@@ -75,7 +75,7 @@ non terminal String assignment_expression;
 
 file ::= decl_list:d function:f block_stmt:b
                                    {: RESULT = d.concat("\n" + f + "\n" + b); :}
-       | function:f block_stmt:b   {: RESULT = f.concat("\n" + b); :};
+       | function:f block_stmt:b   {: RESULT = f.concat("\n" + b); fa.changeCurrentFunction(null, 0); :};
 
 decl_list ::= decl_list:l decl:d              {: RESULT = l.concat("\n" + d); :}
             | decl:d                          {: RESULT = d; :};
@@ -85,22 +85,22 @@ decl ::= decl_type:t COMMA declarator_list:l SEMICOLON
 declarator_list ::= declarator_list:l COMMA declarator:d
                                               {: RESULT = l.concat(", " + d); :}
                   | declarator:d              {: RESULT = d; :};
-decl_type ::= DOUBLE declarator:d      {: RESULT = new String("double " + d); :}
-            | FLOAT declarator:d       {: RESULT = new String("float " + d); :}
-            | LONG declarator:d        {: RESULT = new String("long " + d); :}
-            | INT declarator:d         {: RESULT = new String("int " + d); :};
-declarator ::= stars:s IDENTIFIER:i array_dims:d {: RESULT = s.concat(i + d); :}
-             | stars:s IDENTIFIER:i              {: RESULT = s.concat(i); :}
-             | IDENTIFIER:i array_dims:d         {: RESULT = i.concat(d); :}
-             | IDENTIFIER:i                      {: RESULT = i.toString(); :}
+decl_type ::= DOUBLE declarator:d      {: RESULT = new String("double " + d);:}
+            | FLOAT declarator:d       {: RESULT = new String("float " + d);:}
+            | LONG declarator:d        {: RESULT = new String("long " + d);:}
+            | INT declarator:d         {: RESULT = new String("int " + d);:};
+declarator ::= stars:s IDENTIFIER:i array_dims:d {: RESULT = s.concat(i + d); fa.addVariable(i);:}
+             | stars:s IDENTIFIER:i              {: RESULT = s.concat(i); fa.addVariable(i);:}
+             | IDENTIFIER:i array_dims:d         {: RESULT = i.concat(d); fa.addVariable(i + "[]");:}
+             | IDENTIFIER:i                      {: RESULT = i.toString(); fa.addVariable(i);:}
              | stars:s IDENTIFIER:i array_dims:d ASSGN expression:e
-                                   {: RESULT = s.concat(i + d + "=" + e); :}
+                                   {: RESULT = s.concat(i + d + "=" + e); fa.addVariable(i + "[]");:}
              | stars:s IDENTIFIER:i ASSGN expression:e
-                                   {: RESULT = s.concat(i + "=" + e); :}
+                                   {: RESULT = s.concat(i + "=" + e); fa.addVariable(i + "*");:}
              | IDENTIFIER:i array_dims:d ASSGN expression:e
-                                   {: RESULT = i.concat(d + "=" + e); :}
+                                   {: RESULT = i.concat(d + "=" + e); fa.addVariable(i + "*");:}
              | IDENTIFIER:i ASSGN expression:e
-                                   {: RESULT = i.toString().concat("=" + e); :};
+                                   {: RESULT = i.toString().concat("=" + e); fa.addVariable(i);:};
 stars ::= stars:r STAR                          {: RESULT = r.concat("*"); :}
         | STAR                                  {: RESULT = new String("*"); :};
 array_dims ::= array_dims:l array_dim:d              {: RESULT = l.concat(d); :}
@@ -111,9 +111,8 @@ array_dim ::= LBRACK RBRACK
                {: RESULT = new String("[" + parser.intLitToString(i) + "]"); :};
 
 function ::= function_name:n LPAREN RPAREN
-                                                {: RESULT = n.concat("()"); 
-                                                fa.addStatement(); 
-                                                fa.changeCurrentFunction(n);
+                                                {: RESULT = n.concat("()");  
+                                                fa.changeCurrentFunction(n, nleft);
                                                 fa.addFunction();:};
 function_name ::= DOUBLE IDENTIFIER:i
                             {: RESULT = new String("double " + i.toString()); :}

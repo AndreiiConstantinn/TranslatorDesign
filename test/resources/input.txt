@@ -1,16 +1,17 @@
 int main()
 {	
-    int a = 1; 
-	float b = 2;
-	double c;
+    int var_a = 1; 
+	float var_b = 2;
+	double var_c;
+	int array[3];
 	
 	while (b < 10)
 	{
-	    a ++;
-	    b ++;
-	    b = b + a;
-	    c = a + b;
+	    var_a ++;
+	    var_b ++;
+	    var_b = var_b + var_a;
+	    var_c = var_a + var_b;
 	}
-	return c;
+	return var_c;
 }
 

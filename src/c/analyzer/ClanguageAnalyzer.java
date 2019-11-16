@@ -99,10 +99,14 @@ public class ClanguageAnalyzer {
 		
 		FunctionsAnalyzer fAnalyzer = cAnalyzer.cParser.getAnalyzer();
 		
-		System.out.println("#The functions are: ");
+		System.out.println("\n#The functions are: ");
 		for (Function function : fAnalyzer.getFunctions()) {
-			System.out.println("--- " + function.getName() + " ---");
+			System.out.println("- " + function.getName() + " located at line: " + function.getDefLine());
 		}
-		System.out.println("\n#There are " + fAnalyzer.getNrOfStatements() + " statements.");
+		System.out.println("\n#The variables are: ");
+		for (Variable variable : fAnalyzer.getVarList()) {
+			System.out.println("- " + variable.getName());
+		}
+		System.out.println("\n#Statements count: " + fAnalyzer.getNrOfStatements());
 	}
 }
