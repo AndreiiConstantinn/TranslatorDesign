@@ -3,6 +3,8 @@ package c.analyzer;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Main class, initializes the lexical analyzer and parses the input files. 
@@ -14,6 +16,8 @@ public class ClanguageAnalyzer {
 	private String messageToDisplay = "The selected file is a VALID .c file!";
 	
 	private Parser cParser;
+	
+	private Map<String, String> variablesLocation = new HashMap<>();
 	
 	/**
 	 * Analyzes an input .c file and writes the results provided by lexer into an outputFile.
@@ -42,7 +46,9 @@ public class ClanguageAnalyzer {
 								"\", located at: " + symbol.getSymbolLocation() +
 								", type: " + symbol.getSymbolType());
 					result.append("\n");
-					
+					if (symbol.sym == ISymbol.IDENTIFIER) {
+						variablesLocation.putIfAbsent(lexer.yytext(), symbol.getSymbolLocation());
+					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -73,12 +79,11 @@ public class ClanguageAnalyzer {
 	 * @param lexer The lexer used as default Scanner.
 	 * @return <code>true</code> if it is a valid .c file, <code>false</code> otherwise.
 	 */
+	@SuppressWarnings("deprecation")
 	public boolean runParser(Lexer lexer) {
 		try {
-			@SuppressWarnings("deprecation")
-			Parser parser = new Parser(lexer);
-			this.cParser = parser;
-			parser.parse();
+			this.cParser = new Parser(lexer);
+			this.cParser.parse();
 		// if any exception thrown by the internal parser is caught
 		} catch (Exception e) {
 			return false;
@@ -99,14 +104,15 @@ public class ClanguageAnalyzer {
 		
 		FunctionsAnalyzer fAnalyzer = cAnalyzer.cParser.getAnalyzer();
 		
-		System.out.println("\n#The functions are: ");
+		System.out.println("\n# The functions are: ");
 		for (Function function : fAnalyzer.getFunctions()) {
-			System.out.println("- " + function.getName() + " located at line: " + function.getDefLine());
+			System.out.println("- " + function.getName() + ", located at line: " + function.getDefLine());
 		}
-		System.out.println("\n#The variables are: ");
+		System.out.println("\n# The variables are: ");
 		for (Variable variable : fAnalyzer.getVarList()) {
-			System.out.println("- " + variable.getName());
+			String varName = variable.getName();
+			System.out.println("- " + varName + ", located at: " + cAnalyzer.variablesLocation.get(varName));
 		}
-		System.out.println("\n#Statements count: " + fAnalyzer.getNrOfStatements());
+		System.out.println("\n# Statements count: " + fAnalyzer.getNrOfStatements());
 	}
 }

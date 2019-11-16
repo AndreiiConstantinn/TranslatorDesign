@@ -743,7 +743,7 @@ public class Parser extends java_cup.runtime.lr_parser {
 
 
 	/** Cup generated class to encapsulate user supplied action code.*/
-	@SuppressWarnings({"rawtypes", "unchecked", "unused"})
+	@SuppressWarnings({"unused"})
 	class CUP$parser$actions {
 
 
@@ -993,7 +993,7 @@ public class Parser extends java_cup.runtime.lr_parser {
 				int dleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 				int dright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 				String d = (String)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-				RESULT = i.concat(d); fa.addVariable(i + "[]");
+				RESULT = i.concat(d); fa.addVariable(i);
 				CUP$parser$result = parser.getSymbolFactory().newSymbol("declarator",5, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
 			}
 			return CUP$parser$result;
@@ -1026,7 +1026,7 @@ public class Parser extends java_cup.runtime.lr_parser {
 				int eleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 				int eright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 				String e = (String)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-				RESULT = s.concat(i + d + "=" + e); fa.addVariable(i + "[]");
+				RESULT = s.concat(i + d + "=" + e); fa.addVariable(i);
 				CUP$parser$result = parser.getSymbolFactory().newSymbol("declarator",5, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
 			}
 			return CUP$parser$result;
