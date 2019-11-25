@@ -2,8 +2,8 @@ int main()
 {	
     int var_a = 1; 
 	float var_b = 2;
-	double var_c;
-	int array[3];
+	long var_c;
+	double array[3];
 	
 	while (b < 10)
 	{
@@ -14,4 +14,3 @@ int main()
 	}
 	return var_c;
 }
-

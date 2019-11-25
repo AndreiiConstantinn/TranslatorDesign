@@ -83,7 +83,7 @@ public class ClanguageAnalyzer {
 	public boolean runParser(Lexer lexer) {
 		try {
 			this.cParser = new Parser(lexer);
-			this.cParser.parse();
+			this.cParser.debug_parse();
 		// if any exception thrown by the internal parser is caught
 		} catch (Exception e) {
 			return false;
@@ -96,6 +96,20 @@ public class ClanguageAnalyzer {
 	 */
 	public String getMessageToDisplay() {
 		return messageToDisplay == null ? "" : messageToDisplay;
+	}
+	
+	/**
+	 * @return The C parser.
+	 */
+	public Parser getParser() {
+		return cParser;
+	}
+	
+	/**
+	 * @return The location of the found variables.
+	 */
+	public Map<String, String> getVariablesLocations(){
+		return variablesLocation;
 	}
 	
 	public static void main(String args[]) {
