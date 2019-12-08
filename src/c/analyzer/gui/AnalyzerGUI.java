@@ -63,25 +63,25 @@ public class AnalyzerGUI {
 		frame.getContentPane().setLayout(null);
 		
 		JLabel lblInputFile = new JLabel("Input file:");
-		lblInputFile.setBounds(34, 41, 72, 16);
+		lblInputFile.setBounds(34, 22, 72, 16);
 		frame.getContentPane().add(lblInputFile);
 		
 		JLabel lblOutputFile = new JLabel("Output file:");
-		lblOutputFile.setBounds(34, 69, 72, 16);
+		lblOutputFile.setBounds(34, 50, 72, 16);
 		frame.getContentPane().add(lblOutputFile);
 		
 		inputField = new JTextField();
-		inputField.setBounds(117, 36, 274, 26);
+		inputField.setBounds(117, 17, 274, 26);
 		frame.getContentPane().add(inputField);
 		inputField.setColumns(10);
 		
 		outputField = new JTextField();
-		outputField.setBounds(118, 64, 273, 26);
+		outputField.setBounds(118, 45, 273, 26);
 		frame.getContentPane().add(outputField);
 		outputField.setColumns(10);
 		
 		JButton inputBrowse = new JButton("Browse");
-		inputBrowse.setBounds(403, 36, 72, 29);
+		inputBrowse.setBounds(403, 17, 72, 29);
 		inputBrowse.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -104,7 +104,7 @@ public class AnalyzerGUI {
 		frame.getContentPane().add(inputBrowse);
 		
 		JButton outputBrowse = new JButton("Browse");
-		outputBrowse.setBounds(403, 64, 72, 29);
+		outputBrowse.setBounds(403, 45, 72, 29);
 		outputBrowse.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -125,12 +125,12 @@ public class AnalyzerGUI {
 		resultField = new JTextField();
 		resultField.setEditable(false);
 		resultField.setVisible(false);
-		resultField.setBounds(148, 97, 255, 26);
+		resultField.setBounds(148, 78, 255, 26);
 		resultField.setColumns(10);
 		frame.getContentPane().add(resultField);
 		
 		JButton btnClear = new JButton("Clear");
-		btnClear.setBounds(415, 97, 60, 29);
+		btnClear.setBounds(415, 78, 60, 29);
 		btnClear.setVisible(false);
 		btnClear.addActionListener(new ActionListener() {
 			@Override
@@ -150,14 +150,16 @@ public class AnalyzerGUI {
 				ClanguageAnalyzer cAnalyzer = new ClanguageAnalyzer();
 				cAnalyzer.runAnalyzer(inputField.getText(), outputField.getText());
 				resultField.setVisible(true);
+				resultField.setText(cAnalyzer.getMessageToDisplay());
 				btnClear.setVisible(true);
 				
 				FunctionsAnalyzer fAnalyzer = cAnalyzer.getParser().getAnalyzer();
 				
 				StringBuilder functions = new StringBuilder();
 				for (Function function : fAnalyzer.getFunctions()) {
-					functions.append(function.getName() + ", located at line: " + function.getDefLine());
+					functions.append(function.getName()).append(", ");
 				}
+				functions.deleteCharAt(functions.length() - 2);
 				functionsField.setText(functions.toString());
 				
 				StringBuilder variables = new StringBuilder();
@@ -170,24 +172,24 @@ public class AnalyzerGUI {
 				statementsField.setText("" + fAnalyzer.getNrOfStatements());
 			}
 		});
-		btnRunAnalyzer.setBounds(21, 97, 117, 29);
+		btnRunAnalyzer.setBounds(19, 78, 117, 29);
 		frame.getContentPane().add(btnRunAnalyzer);
 		
 		JLabel lblFunctions = new JLabel("Functions:");
-		lblFunctions.setBounds(31, 166, 94, 16);
+		lblFunctions.setBounds(31, 147, 94, 16);
 		frame.getContentPane().add(lblFunctions);
 
 		functionsField = new JTextField();
 		functionsField.setColumns(10);
-		functionsField.setBounds(137, 161, 326, 26);
+		functionsField.setBounds(137, 142, 326, 26);
 		frame.getContentPane().add(functionsField);
 		
 		JLabel lblNrStatements = new JLabel("Nr. statements:");
-		lblNrStatements.setBounds(31, 138, 105, 16);
+		lblNrStatements.setBounds(31, 119, 105, 16);
 		frame.getContentPane().add(lblNrStatements);
 		
 		statementsField = new JTextField();
-		statementsField.setBounds(137, 133, 60, 26);
+		statementsField.setBounds(137, 116, 60, 26);
 		frame.getContentPane().add(statementsField);
 		statementsField.setColumns(10);
 		
@@ -196,7 +198,7 @@ public class AnalyzerGUI {
 		frame.getContentPane().add(lblVariables);
 		
 		variablesArea = new JTextArea();
-		variablesArea.setBounds(137, 192, 326, 80);
+		variablesArea.setBounds(137, 180, 326, 79);
 		frame.getContentPane().add(variablesArea);
 	}
 }

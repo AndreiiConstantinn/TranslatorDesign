@@ -48,6 +48,7 @@ public class ClanguageAnalyzer {
 					result.append("\n");
 					if (symbol.sym == ISymbol.IDENTIFIER) {
 						variablesLocation.putIfAbsent(lexer.yytext(), symbol.getSymbolLocation());
+						System.out.println(lexer.yytext());
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -83,7 +84,7 @@ public class ClanguageAnalyzer {
 	public boolean runParser(Lexer lexer) {
 		try {
 			this.cParser = new Parser(lexer);
-			this.cParser.debug_parse();
+			this.cParser.parse();
 		// if any exception thrown by the internal parser is caught
 		} catch (Exception e) {
 			return false;
@@ -120,7 +121,7 @@ public class ClanguageAnalyzer {
 		
 		System.out.println("\n# The functions are: ");
 		for (Function function : fAnalyzer.getFunctions()) {
-			System.out.println("- " + function.getName() + ", located at line: " + function.getDefLine());
+			System.out.println("- " + function.getName()); //+ ", located at line: " + function.getDefLine());
 		}
 		System.out.println("\n# The variables are: ");
 		for (Variable variable : fAnalyzer.getVarList()) {

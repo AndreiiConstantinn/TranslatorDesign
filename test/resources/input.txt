@@ -1,16 +1,29 @@
 int main()
 {	
-    int var_a = 1; 
-	float var_b = 2;
+    int var_a; 
+	float var_b;
 	long var_c;
-	double array[3];
+	double var_d;
 	
+	var_a = 5;
+	var_b = 3;
 	while (b < 10)
 	{
 	    var_a ++;
 	    var_b ++;
 	    var_b = var_b + var_a;
 	    var_c = var_a + var_b;
+	    var_d *= vard_d;
 	}
 	return var_c;
+}
+
+int func()
+{
+	return 0;
+}
+
+void func2()
+{
+	var_a ++;
 }
