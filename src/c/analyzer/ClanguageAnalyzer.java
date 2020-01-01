@@ -93,7 +93,7 @@ public class ClanguageAnalyzer {
 	public boolean runParser(Lexer lexer) {
 		try {
 			this.cParser = new Parser(lexer);
-			this.cParser.parse();
+			this.cParser.debug_parse();
 		// if any exception thrown by the internal parser is caught
 		} catch (Exception e) {
 			return false;

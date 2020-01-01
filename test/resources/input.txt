@@ -2,7 +2,6 @@ int main()
 {	
     int var_a; 
 	float var_b;
-	long var_c;
 	double var_d;
 	int var_e;
 	
@@ -13,18 +12,17 @@ int main()
 	    var_a ++;
 	    var_b ++;
 	    var_b = var_b + var_a;
-	    var_c = var_a + var_b;
 	    var_d *= vard_d;
 	}
-	return var_c;
+	return var_d;
 }
 
-int func(a, a)
+void func(int var_x;)
+{
+	var_x ++;
+}
+
+int func2()
 {
 	return 0;
-}
-
-void func2()
-{
-	var_a ++;
 }
