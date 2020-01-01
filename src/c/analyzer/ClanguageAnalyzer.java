@@ -19,6 +19,8 @@ public class ClanguageAnalyzer {
 	
 	private Map<String, String> variablesLocation = new HashMap<>();
 	
+	private Map<String, Integer> variablesRefs = new HashMap<>();
+	
 	/**
 	 * Analyzes an input .c file and writes the results provided by lexer into an outputFile.
 	 * 
@@ -47,7 +49,14 @@ public class ClanguageAnalyzer {
 								", type: " + symbol.getSymbolType());
 					result.append("\n");
 					if (symbol.sym == ISymbol.IDENTIFIER) {
+						String variableName = lexer.yytext();
 						variablesLocation.putIfAbsent(lexer.yytext(), symbol.getSymbolLocation());
+						if (variablesRefs.containsKey(variableName)) {
+							variablesRefs.put(variableName, (Integer)variablesRefs.get(variableName).intValue() + 1) ;
+						
+						} else {
+							variablesRefs.put(variableName, 0);
+						}
 						System.out.println(lexer.yytext());
 					}
 				} catch (Exception e) {
@@ -109,8 +118,12 @@ public class ClanguageAnalyzer {
 	/**
 	 * @return The location of the found variables.
 	 */
-	public Map<String, String> getVariablesLocations(){
+	public Map<String, String> getVariablesLocations() {
 		return variablesLocation;
+	}
+	
+	public Map<String, Integer> getVariablesRefs() {
+		return variablesRefs;
 	}
 	
 	public static void main(String args[]) {
@@ -126,7 +139,8 @@ public class ClanguageAnalyzer {
 		System.out.println("\n# The variables are: ");
 		for (Variable variable : fAnalyzer.getVarList()) {
 			String varName = variable.getName();
-			System.out.println("- " + varName + ", located at: " + cAnalyzer.variablesLocation.get(varName));
+			System.out.println("- " + varName + ", located at: " + cAnalyzer.variablesLocation.get(varName)
+											  + ", references: " + cAnalyzer.variablesRefs.get(varName));
 		}
 		System.out.println("\n# Statements count: " + fAnalyzer.getNrOfStatements());
 	}

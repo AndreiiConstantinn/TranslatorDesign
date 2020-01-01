@@ -4,10 +4,11 @@ int main()
 	float var_b;
 	long var_c;
 	double var_d;
+	int var_e;
 	
 	var_a = 5;
 	var_b = 3;
-	while (b < 10)
+	while (var_b < 10)
 	{
 	    var_a ++;
 	    var_b ++;
@@ -18,7 +19,7 @@ int main()
 	return var_c;
 }
 
-int func()
+int func(a, a)
 {
 	return 0;
 }

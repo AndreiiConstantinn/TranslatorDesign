@@ -165,7 +165,10 @@ public class AnalyzerGUI {
 				StringBuilder variables = new StringBuilder();
 				for (Variable variable : fAnalyzer.getVarList()) {
 					String varName = variable.getName();
-					variables.append(varName).append(", located at: " + cAnalyzer.getVariablesLocations().get(varName)).append("\n");
+					variables.append(varName)
+			         		 .append(", located at: " + cAnalyzer.getVariablesLocations().get(varName))
+			         		 .append(", references: " + cAnalyzer.getVariablesRefs().get(varName))
+			         		 .append("\n");
 				}
 				variablesArea.setText(variables.toString());
 				
